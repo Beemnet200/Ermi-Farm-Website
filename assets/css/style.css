@@ -419,9 +419,14 @@ section { padding: 88px 0; }
 }
 .home-gallery-caption {
   margin-top: 10px;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--muted);
-  line-height: 1.45;
+  line-height: 1.4;
+  height: 2.1rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .gallery-nav-btn {
   position: absolute;
