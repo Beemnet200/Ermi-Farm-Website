@@ -797,17 +797,41 @@ section { padding: 88px 0; }
 
 /* ---------- Motion / animation ---------- */
 @media (prefers-reduced-motion: no-preference) {
-  /* Scroll-reveal: elements fade + slide up into view. Visible by default —
+
+  /* Scroll-reveal: container fades/slides up, and its direct children
+     (cards, grid items, paragraphs) cascade in one after another for a
+     much livelier effect than a single flat fade. Visible by default —
      JS only arms elements that are off-screen at load, so content never
      depends on JS to be seen. */
-  .reveal {
+  .reveal.reveal-pending {
+    opacity: 0;
+    transform: translateY(36px);
     transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .reveal.reveal-pending { opacity: 0; transform: translateY(28px); }
   .reveal.reveal-pending.in-view { opacity: 1; transform: translateY(0); }
-  .reveal.reveal-pending.reveal-2 { transition-delay: 0.1s; }
-  .reveal.reveal-pending.reveal-3 { transition-delay: 0.2s; }
-  .reveal.reveal-pending.reveal-4 { transition-delay: 0.3s; }
+
+  .reveal.reveal-pending > * {
+    opacity: 0;
+    transform: translateY(26px) scale(0.95);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.reveal-pending.in-view > * { opacity: 1; transform: translateY(0) scale(1); }
+  .reveal.reveal-pending.in-view > *:nth-child(1) { transition-delay: 0.05s; }
+  .reveal.reveal-pending.in-view > *:nth-child(2) { transition-delay: 0.14s; }
+  .reveal.reveal-pending.in-view > *:nth-child(3) { transition-delay: 0.23s; }
+  .reveal.reveal-pending.in-view > *:nth-child(4) { transition-delay: 0.32s; }
+  .reveal.reveal-pending.in-view > *:nth-child(5) { transition-delay: 0.41s; }
+  .reveal.reveal-pending.in-view > *:nth-child(6) { transition-delay: 0.5s; }
+  .reveal.reveal-pending.in-view > *:nth-child(n+7) { transition-delay: 0.58s; }
+
+  /* Punchier hover lift on every card style already using translateY(-4px) */
+  .info-card, .cert-card, .home-gallery-item, .project-card, .breed-card, .product-card {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+  }
+  .info-card:hover, .cert-card:hover, .home-gallery-item:hover { transform: translateY(-8px); }
+  .project-card:hover { transform: translateY(-10px) scale(1.015); }
+  .partner-logo { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease; }
+  .partner-logo:hover { transform: translateY(-6px) rotate(-1.5deg); box-shadow: var(--shadow); }
 
   /* Image hover zoom on cards that already clip overflow */
   .tv-card img,
@@ -816,32 +840,59 @@ section { padding: 88px 0; }
   .project-card-media img,
   .breed-card .placeholder,
   .product-card .placeholder {
-    transition: transform 0.45s ease;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .tv-card:hover img,
   .home-gallery-item:hover img,
   .cert-card:hover img,
-  .project-card:hover .project-card-media img { transform: scale(1.05); }
+  .project-card:hover .project-card-media img { transform: scale(1.08); }
   .breed-card:hover .placeholder,
-  .product-card:hover .placeholder { transform: scale(1.04); }
+  .product-card:hover .placeholder { transform: scale(1.05); }
+
+  /* Carousel arrow: nudge + grow on hover */
+  .gallery-nav-btn { transition: background 0.15s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .gallery-nav-btn:hover { background: var(--blue-deep); transform: translateY(-50%) scale(1.12) translateX(3px); }
+
+  /* Primary CTA breathes gently to draw the eye */
+  .hero-actions .btn-primary { animation: ctaPulse 2.6s ease-in-out infinite; }
+  .hero-actions .btn-primary:hover { animation: none; }
+  @keyframes ctaPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.35); }
+    50% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+  }
 
   /* Nav mobile panel: smooth open */
   .site-header.nav-open .nav-links {
-    animation: navDrop 0.25s ease;
+    animation: navDrop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   @keyframes navDrop {
-    from { opacity: 0; transform: translateY(-8px); }
+    from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* Sticky header gains a shadow once the page is scrolled (toggled via JS) */
+  .site-header { transition: box-shadow 0.25s ease; }
+  .site-header.scrolled { box-shadow: 0 6px 20px rgba(10, 61, 98, 0.12); }
+
   /* Hero content settles in on page load */
-  .hero-inner > * { animation: heroRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
-  .hero-inner > *:nth-child(2) { animation-delay: 0.08s; }
-  .hero-inner > *:nth-child(3) { animation-delay: 0.16s; }
-  .hero-inner > *:nth-child(4) { animation-delay: 0.24s; }
-  .hero-inner > *:nth-child(5) { animation-delay: 0.32s; }
+  .hero-inner > * { animation: heroRise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  .hero-inner > *:nth-child(2) { animation-delay: 0.1s; }
+  .hero-inner > *:nth-child(3) { animation-delay: 0.2s; }
+  .hero-inner > *:nth-child(4) { animation-delay: 0.3s; }
+  .hero-inner > *:nth-child(5) { animation-delay: 0.4s; }
   @keyframes heroRise {
-    from { opacity: 0; transform: translateY(18px); }
+    from { opacity: 0; transform: translateY(26px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  /* Hero video: slow continuous "Ken Burns" zoom so the hero feels alive even before scrolling */
+  .hero-video { animation: kenBurns 22s ease-in-out infinite alternate; }
+  @keyframes kenBurns {
+    from { transform: scale(1); }
+    to { transform: scale(1.12); }
+  }
+
+  /* Logo badge gets a playful little spin on hover */
+  .logo-badge { transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .logo-mark:hover .logo-badge { transform: rotate(10deg) scale(1.08); }
 }

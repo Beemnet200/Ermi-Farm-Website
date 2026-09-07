@@ -10,6 +10,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Sticky header gains a shadow once the page scrolls
+  if (header) {
+    const updateHeaderShadow = () => {
+      header.classList.toggle("scrolled", window.scrollY > 12);
+    };
+    updateHeaderShadow();
+    window.addEventListener("scroll", updateHeaderShadow, { passive: true });
+  }
+
   // Contact form (placeholder submit handler — wire up to a real backend/service later)
   const contactForm = document.querySelector("#contact-form");
   if (contactForm) {
@@ -79,8 +88,13 @@ document.addEventListener("DOMContentLoaded", () => {
       (entries, obs) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("in-view");
-            obs.unobserve(entry.target);
+            const el = entry.target;
+            el.classList.add("in-view");
+            obs.unobserve(el);
+            // Once fully revealed, drop reveal-pending so this element's transform/opacity
+            // is governed purely by its normal card CSS again (no lingering conflict with
+            // hover-lift transitions on the same property).
+            setTimeout(() => el.classList.remove("reveal-pending"), 1400);
           }
         });
       },
