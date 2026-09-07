@@ -691,6 +691,8 @@ section { padding: 88px 0; }
   color: var(--muted);
   margin-bottom: 16px;
   line-height: 1.75;
+  text-align: justify;
+  text-align-last: left;
 }
 .story-text p:last-child { margin-bottom: 0; }
 .split-photo {
