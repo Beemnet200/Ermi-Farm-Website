@@ -68,4 +68,60 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
+
+  // Scroll-reveal — elements are visible by default (works with no JS / reduced motion).
+  // Anything already on screen at load stays visible; only off-screen elements are
+  // armed to fade + slide up as the user scrolls to them.
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const revealEls = document.querySelectorAll(".reveal");
+  if (!prefersReducedMotion && "IntersectionObserver" in window && revealEls.length) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("in-view");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+    );
+    revealEls.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
+      if (alreadyVisible) return; // leave visible, no animation needed
+      el.classList.add("reveal-pending");
+      observer.observe(el);
+    });
+  }
+
+  // Animated stat counters — count up once when scrolled into view.
+  // Skips anything that isn't a plain leading number (e.g. bracketed placeholders, "#1").
+  const counterEls = document.querySelectorAll(".hero-stat .num, .stat-box .num");
+  if (!prefersReducedMotion && "IntersectionObserver" in window && counterEls.length) {
+    const counterObserver = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          obs.unobserve(el);
+          const match = el.textContent.match(/^(\d+)(.*)$/);
+          if (!match) return;
+          const target = parseInt(match[1], 10);
+          const suffix = match[2];
+          const duration = 1200;
+          const start = performance.now();
+          const step = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.round(target * eased) + suffix;
+            if (progress < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        });
+      },
+      { threshold: 0.4 }
+    );
+    counterEls.forEach((el) => counterObserver.observe(el));
+  }
 });
