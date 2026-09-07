@@ -723,6 +723,32 @@ section { padding: 88px 0; }
   text-align: center;
 }
 
+.purpose-photos { position: relative; }
+.purpose-photo-main {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+.purpose-photo-accent {
+  position: absolute;
+  bottom: -28px;
+  right: -28px;
+  width: 52%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 5px solid var(--white);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+@media (max-width: 900px) {
+  .purpose-photos { margin-bottom: 28px; }
+  .purpose-photo-accent { bottom: -18px; right: -12px; width: 48%; }
+}
+
 .story-quote {
   position: relative;
   background: var(--navy);
