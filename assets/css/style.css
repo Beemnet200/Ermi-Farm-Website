@@ -203,16 +203,8 @@ section { padding: 88px 0; }
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: var(--blue);
-  background-image: radial-gradient(circle, rgba(255,255,255,0.5) 2.5px, transparent 3px);
-  background-size: 12px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--white);
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.4rem;
+  object-fit: cover;
+  object-position: center;
   border: 3px solid var(--white);
   box-shadow: var(--shadow-sm);
 }
@@ -544,7 +536,15 @@ section { padding: 88px 0; }
   padding-bottom: 40px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
-.footer-brand .logo-badge { margin-bottom: 14px; }
+.footer-logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: 14px;
+  background: var(--white);
+  border-radius: 14px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow-sm);
+}
 .footer-brand p { font-size: 0.88rem; color: #a9c4e2; max-width: 280px; }
 .site-footer h4 { color: var(--white); font-size: 0.92rem; margin-bottom: 16px; }
 .site-footer ul li { margin-bottom: 10px; font-size: 0.88rem; }
