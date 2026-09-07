@@ -22,4 +22,50 @@ document.addEventListener("DOMContentLoaded", () => {
       contactForm.reset();
     });
   }
+
+  // Lightbox — click any .lightbox-trigger image to view it enlarged
+  const lightbox = document.querySelector("#lightbox");
+  const lightboxImg = document.querySelector("#lightbox-img");
+  const lightboxClose = document.querySelector("#lightbox-close");
+  if (lightbox && lightboxImg) {
+    const openLightbox = (src, alt) => {
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || "";
+      lightbox.hidden = false;
+      document.body.style.overflow = "hidden";
+    };
+    const closeLightbox = () => {
+      lightbox.hidden = true;
+      lightboxImg.src = "";
+      document.body.style.overflow = "";
+    };
+    document.addEventListener("click", (e) => {
+      const trigger = e.target.closest(".lightbox-trigger");
+      if (trigger) {
+        openLightbox(trigger.src, trigger.alt);
+      }
+    });
+    lightboxClose && lightboxClose.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !lightbox.hidden) closeLightbox();
+    });
+  }
+
+  // Home page gallery carousel — "next" button scrolls through the photos, looping at the end
+  const galleryTrack = document.querySelector("#home-gallery-track");
+  const galleryNext = document.querySelector("#home-gallery-next");
+  if (galleryTrack && galleryNext) {
+    galleryNext.addEventListener("click", () => {
+      const item = galleryTrack.querySelector(".home-gallery-item");
+      const step = item ? item.getBoundingClientRect().width + 20 : 280;
+      const atEnd = galleryTrack.scrollLeft + galleryTrack.clientWidth >= galleryTrack.scrollWidth - 4;
+      galleryTrack.scrollTo({
+        left: atEnd ? 0 : galleryTrack.scrollLeft + step,
+        behavior: "smooth",
+      });
+    });
+  }
 });
