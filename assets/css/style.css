@@ -783,52 +783,68 @@ section { padding: 88px 0; }
   .story-stats { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ---------- Projects (editorial carousel) ---------- */
-.projects-section {
-  background: var(--navy);
-  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 3px, transparent 3.5px);
-  background-size: 30px 30px;
-}
-.project-track {
-  display: flex;
-  gap: 24px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  padding-bottom: 10px;
-}
-.project-card {
+/* ---------- Our Projects (roadmap) ---------- */
+.roadmap-section { background: var(--sky-soft); }
+.roadmap {
   position: relative;
-  flex: 0 0 320px;
-  scroll-snap-align: start;
-  background: var(--white);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 12px 0 24px;
 }
-.project-card-index {
+.roadmap::before {
+  content: "";
   position: absolute;
-  top: 16px;
-  left: 16px;
-  width: 42px;
-  height: 42px;
+  top: 50%;
+  left: 0;
+  right: 0;
+  border-top: 3px dashed var(--line);
+  z-index: 0;
+}
+.roadmap-stop {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.roadmap-dot {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: var(--blue);
   color: var(--white);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1rem;
-  box-shadow: var(--shadow-sm);
-  z-index: 2;
-  border: 2px solid var(--white);
+  border: 4px solid var(--sky-soft);
+  box-shadow: var(--shadow);
+  flex-shrink: 0;
 }
-.project-card-media { border-radius: 0; border: none; aspect-ratio: 16 / 10; }
-.project-card-body { padding: 22px 24px 26px; }
-.project-card-body h3 { font-size: 1.15rem; margin-bottom: 8px; }
-.project-card-body p { color: var(--muted); font-size: 0.9rem; }
+.roadmap-card {
+  width: 100%;
+  max-width: 280px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  text-align: center;
+}
+.roadmap-media { border-radius: 8px; aspect-ratio: 4 / 3; margin-bottom: 14px; }
+.roadmap-card h3 { font-size: 1.05rem; margin-bottom: 8px; }
+.roadmap-card p { color: var(--muted); font-size: 0.88rem; }
+
+@media (max-width: 900px) {
+  .roadmap { flex-direction: column; gap: 40px; }
+  .roadmap::before { display: none; }
+  .roadmap-stop:nth-child(odd) { flex-direction: column-reverse; }
+}
 
 /* ---------- Footer ---------- */
 .site-footer {
@@ -933,11 +949,10 @@ section { padding: 88px 0; }
   .reveal.reveal-pending.in-view > *:nth-child(n+7) { transition-delay: 0.58s; }
 
   /* Punchier hover lift on every card style already using translateY(-4px) */
-  .info-card, .cert-card, .home-gallery-item, .project-card, .breed-card, .product-card {
+  .info-card, .cert-card, .home-gallery-item, .roadmap-card, .breed-card, .product-card {
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
   }
-  .info-card:hover, .cert-card:hover, .home-gallery-item:hover { transform: translateY(-8px); }
-  .project-card:hover { transform: translateY(-10px) scale(1.015); }
+  .info-card:hover, .cert-card:hover, .home-gallery-item:hover, .roadmap-card:hover { transform: translateY(-8px); }
   .partner-logo { transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease; }
   .partner-logo:hover { transform: translateY(-6px) rotate(-1.5deg); box-shadow: var(--shadow); }
 
@@ -945,15 +960,13 @@ section { padding: 88px 0; }
   .tv-card img,
   .home-gallery-item img,
   .cert-card img,
-  .project-card-media img,
   .breed-card .placeholder,
   .product-card .placeholder {
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .tv-card:hover img,
   .home-gallery-item:hover img,
-  .cert-card:hover img,
-  .project-card:hover .project-card-media img { transform: scale(1.08); }
+  .cert-card:hover img { transform: scale(1.08); }
   .breed-card:hover .placeholder,
   .product-card:hover .placeholder { transform: scale(1.05); }
 
