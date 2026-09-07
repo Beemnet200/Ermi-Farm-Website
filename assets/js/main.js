@@ -54,18 +54,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Home page gallery carousel — "next" button scrolls through the photos, looping at the end
-  const galleryTrack = document.querySelector("#home-gallery-track");
-  const galleryNext = document.querySelector("#home-gallery-next");
-  if (galleryTrack && galleryNext) {
-    galleryNext.addEventListener("click", () => {
-      const item = galleryTrack.querySelector(".home-gallery-item");
+  // Horizontal carousels — any "next" button with data-track scrolls its track, looping at the end
+  document.querySelectorAll(".gallery-nav-btn[data-track]").forEach((btn) => {
+    const track = document.querySelector(btn.dataset.track);
+    if (!track) return;
+    btn.addEventListener("click", () => {
+      const item = track.firstElementChild;
       const step = item ? item.getBoundingClientRect().width + 20 : 280;
-      const atEnd = galleryTrack.scrollLeft + galleryTrack.clientWidth >= galleryTrack.scrollWidth - 4;
-      galleryTrack.scrollTo({
-        left: atEnd ? 0 : galleryTrack.scrollLeft + step,
+      const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      track.scrollTo({
+        left: atEnd ? 0 : track.scrollLeft + step,
         behavior: "smooth",
       });
     });
-  }
+  });
 });
