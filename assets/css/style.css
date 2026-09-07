@@ -664,15 +664,27 @@ section { padding: 88px 0; }
 
 /* ---------- Values / Mission blocks reused on About ---------- */
 .mission-banner {
+  position: relative;
   background: var(--navy);
-  background-image: radial-gradient(circle, rgba(255,255,255,0.08) 3px, transparent 3.5px);
-  background-size: 26px 26px;
-  color: var(--white);
+  overflow: hidden;
   border-radius: var(--radius);
   padding: 50px;
   text-align: center;
 }
-.mission-banner h2 { color: var(--white); }
+.mission-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('../img/Dot.png');
+  background-size: 200px auto;
+  background-repeat: repeat;
+  opacity: 0.16;
+}
+.mission-banner .eyebrow, .mission-banner h2, .mission-banner p {
+  position: relative;
+  z-index: 1;
+}
+.mission-banner h2 { color: var(--white); max-width: 760px; margin: 0 auto; }
 .mission-banner p { color: #d9ecff; max-width: 700px; margin: 14px auto 0; }
 
 /* ---------- Story (founding narrative) ---------- */
