@@ -884,6 +884,84 @@ section { padding: 88px 0; }
   .roadmap-stop:nth-child(odd) { flex-direction: column-reverse; }
 }
 
+/* ---------- Project 1 feature: before / after renovation ---------- */
+.roadmap-feature {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 32px clamp(20px, 4vw, 40px) 36px;
+  margin-bottom: 48px;
+}
+.roadmap-feature-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 26px;
+}
+.roadmap-dot--feature {
+  position: static;
+  border-color: var(--white);
+}
+.roadmap-feature-head h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+}
+.before-after-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-bottom: 24px;
+}
+.ba-pair { display: flex; flex-direction: column; gap: 10px; }
+.ba-shot {
+  position: relative;
+  margin: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+.ba-shot img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.ba-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(20, 30, 45, 0.72);
+  color: var(--white);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.ba-label--after { background: var(--blue); }
+.ba-after-duo {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.ba-after-duo .ba-shot { border-radius: 8px; }
+.ba-after-duo .ba-label { top: 8px; left: 8px; }
+.roadmap-feature-text {
+  color: var(--muted);
+  font-size: 0.96rem;
+  text-align: justify;
+  text-align-last: left;
+  max-width: 900px;
+}
+
+@media (max-width: 900px) {
+  .before-after-grid { grid-template-columns: 1fr; gap: 24px; }
+}
+
 /* ---------- Footer ---------- */
 .site-footer {
   background: var(--navy);
