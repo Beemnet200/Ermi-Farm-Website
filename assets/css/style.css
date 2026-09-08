@@ -620,6 +620,16 @@ section { padding: 88px 0; }
 }
 .gallery-grid .placeholder { aspect-ratio: 1/1; }
 .gallery-grid .tall { grid-row: span 2; aspect-ratio: 1/2.1; }
+.gallery-item { aspect-ratio: 1/1; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-sm); }
+.gallery-item.tall { grid-row: span 2; aspect-ratio: 1/2.1; }
+.gallery-item img, .gallery-item video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  background: #000;
+}
 
 /* ---------- Contact ---------- */
 .contact-wrap {
@@ -1063,13 +1073,17 @@ section { padding: 88px 0; }
   .home-gallery-item img,
   .cert-card img,
   .breed-card .placeholder,
-  .product-card img {
+  .product-card img,
+  .gallery-item img,
+  .gallery-item video {
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .tv-card:hover img,
   .home-gallery-item:hover img,
   .cert-card:hover img,
-  .product-card:hover img { transform: scale(1.08); }
+  .product-card:hover img,
+  .gallery-item:hover img,
+  .gallery-item:hover video { transform: scale(1.08); }
   .breed-card:hover .placeholder { transform: scale(1.05); }
 
   /* Carousel arrow: nudge + grow on hover */
