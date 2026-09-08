@@ -926,6 +926,18 @@ section { padding: 88px 0; }
   gap: 24px;
   margin-bottom: 24px;
 }
+.feature-video {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+.feature-video video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
 
 @media (max-width: 900px) {
   .before-after-grid { grid-template-columns: 1fr; gap: 24px; }
