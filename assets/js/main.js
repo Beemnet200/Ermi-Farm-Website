@@ -79,22 +79,31 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Scroll-reveal — elements are visible by default (works with no JS / reduced motion).
-  // Anything already on screen at load stays visible; only off-screen elements are
-  // armed to fade + slide up as the user scrolls to them.
+  // Every .reveal element stays observed for the life of the page: it fades + slides in
+  // each time it enters the viewport, and resets each time it leaves, so scrolling up and
+  // down replays the animation instead of it firing only once.
+  //
+  // "reveal-pending" is only kept on an element while it's actively animating (during the
+  // ~1.4s entrance transition, or once it has exited and is waiting to re-enter). Once an
+  // entrance finishes it's dropped again, same as before, so a settled, on-screen card's
+  // hover-lift transform isn't fighting the reveal system's own transform the rest of the
+  // time it sits in view.
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const revealEls = document.querySelectorAll(".reveal");
   if (!prefersReducedMotion && "IntersectionObserver" in window && revealEls.length) {
     const observer = new IntersectionObserver(
-      (entries, obs) => {
+      (entries) => {
         entries.forEach((entry) => {
+          const el = entry.target;
+          clearTimeout(el._revealTimer);
           if (entry.isIntersecting) {
-            const el = entry.target;
+            el.classList.add("reveal-pending");
+            void el.offsetWidth; // flush styles so the hidden state paints before animating in
             el.classList.add("in-view");
-            obs.unobserve(el);
-            // Once fully revealed, drop reveal-pending so this element's transform/opacity
-            // is governed purely by its normal card CSS again (no lingering conflict with
-            // hover-lift transitions on the same property).
-            setTimeout(() => el.classList.remove("reveal-pending"), 1400);
+            el._revealTimer = setTimeout(() => el.classList.remove("reveal-pending"), 1400);
+          } else {
+            el.classList.remove("in-view");
+            el.classList.add("reveal-pending");
           }
         });
       },
@@ -103,8 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
     revealEls.forEach((el) => {
       const rect = el.getBoundingClientRect();
       const alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
-      if (alreadyVisible) return; // leave visible, no animation needed
-      el.classList.add("reveal-pending");
+      if (alreadyVisible) el.classList.add("in-view"); // no flash for above-fold content
+      else el.classList.add("reveal-pending");
       observer.observe(el);
     });
   }
