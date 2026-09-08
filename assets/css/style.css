@@ -964,17 +964,19 @@ section { padding: 88px 0; }
   margin-bottom: 24px;
   max-width: 720px;
 }
+.feature-photo-trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
 
 @media (max-width: 900px) {
   .before-after-grid { grid-template-columns: 1fr; gap: 24px; }
+  .feature-photo-trio { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
   .feature-photo-duo { grid-template-columns: 1fr; }
-}
-@media (min-width: 901px) {
-  .roadmap:has(> .roadmap-stop:only-child) { justify-content: center; }
-  .roadmap:has(> .roadmap-stop:only-child)::before { display: none; }
-  .roadmap:has(> .roadmap-stop:only-child) .roadmap-stop { flex: 0 1 auto; }
 }
 
 /* ---------- Footer ---------- */
